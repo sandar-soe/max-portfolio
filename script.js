@@ -82,8 +82,16 @@ document.querySelectorAll('.chart').forEach(chart=>{
 });
 
 const hamburger = document.getElementById("hamburger");
-const navLinks = document.querySelector(".nav-links");
+const navLinks = document.getElementById("navLinks");
 
-hamburger?.addEventListener("click", () => {
-  navLinks.classList.toggle("nav-open");
+hamburger.addEventListener("click", () => {
+  navLinks.classList.toggle("open");
 });
+
+/* close menu when link clicked */
+navLinks.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", () => {
+    navLinks.classList.remove("open");
+  });
+});
+

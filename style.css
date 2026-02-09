@@ -232,6 +232,16 @@ body {
   }
 }
 
+.section-title {
+  margin-bottom: 32px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.code-title {
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  opacity: 0.6;
+}
+
 
 /* Cards */
 .card-grid {
@@ -242,7 +252,7 @@ body {
 }
 
 .card {
-  padding: 24px;
+  padding: 12px;
   border-radius: 20px;
   background: var(--bg);
   box-shadow: 0 15px 40px rgba(0,0,0,0.1);
