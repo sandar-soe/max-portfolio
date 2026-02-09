@@ -69,6 +69,7 @@ gsap.utils.toArray('.chart-svg polyline').forEach(line => {
   });
 });
 
+
 // 3D chart illusion
 document.querySelectorAll('.chart').forEach(chart=>{
   const level = chart.dataset.level / 100;
@@ -82,16 +83,47 @@ document.querySelectorAll('.chart').forEach(chart=>{
 });
 
 const hamburger = document.getElementById("hamburger");
-const navLinks = document.getElementById("navLinks");
+const navLinks = document.querySelector(".nav-links");
 
 hamburger.addEventListener("click", () => {
-  navLinks.classList.toggle("open");
+  navLinks.classList.toggle("nav-open");
 });
 
-/* close menu when link clicked */
+// close menu when link clicked
 navLinks.querySelectorAll("a").forEach(link => {
   link.addEventListener("click", () => {
-    navLinks.classList.remove("open");
+    navLinks.classList.remove("nav-open");
   });
 });
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const skillBars = document.querySelectorAll(".skill-bar");
+
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const level = entry.target.dataset.level;
+          const fill = entry.target.querySelector(".fill");
+
+          // Animate using GSAP for smooth fill
+          gsap.to(fill, { width: level + "%", duration: 1.2, ease: "power2.out" });
+
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.25 }
+  );
+
+  skillBars.forEach(bar => {
+    const fill = bar.querySelector(".fill");
+    fill.style.width = "0%"; // reset width
+    observer.observe(bar);
+  });
+});
+
+
 

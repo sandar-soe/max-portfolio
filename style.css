@@ -54,32 +54,34 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  position: absolute;       /* position relative to section */
-  bottom: 40px;             /* distance from bottom of page */
-  left: 0;
-  padding: 0 32px;          /* horizontal padding */
-  box-sizing: border-box;        /* space from bottom of page */
+  max-width: 900px;
+  margin: 0 auto 40px auto;
+  padding: 0 24px;
+  box-sizing: border-box;
 }
 
 .project-nav a {
-  display: flex;
-  align-items: center;
-  justify-content: center;       /* center content horizontally */
-  min-width: 140px;              /* enforce equal size if needed */
+  flex: 1;
   text-align: center;
-  text-decoration: none;
+  min-width: 140px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--fg);
+  background: var(--bg);
   color: var(--fg);
-  min-width: 140px; 
-  opacity: 0.7;
   font-family: 'JetBrains Mono', monospace;
   font-weight: 500;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  opacity: 0.7;
+  transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s;
 }
 
 .project-nav a:hover {
   transform: translateY(-2px);
   opacity: 1;
+  background: var(--fg);
+  color: var(--bg);
 }
+
 
 
 /* Cursor */
@@ -95,32 +97,94 @@ body {
 }
 
 /* Nav */
+/* NAV BAR BASE */
 .nav {
-  position:fixed;
-  top:28px;
-  width:100%;
-  padding:0 48px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  z-index:100;
+  position: fixed;
+  top: 28px;
+  width: 100%;
+  padding: 0 48px;
+  display: flex;
+  justify-content: center; /* center nav-inner */
+  align-items: center;
+  z-index: 100;
+}
+
+/* INNER FLEX CONTAINER */
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* center nav links */
+  position: relative;      /* for absolute positioning of logo & hamburger */
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* LOGO LEFT */
+.nav-inner .nav-brand {
+  position: absolute;
+  left: 0; /* aligns left edge */
+}
+
+/* HAMBURGER RIGHT */
+.nav-inner .hamburger {
+  position: absolute;
+  right: 0; 
+  display: none; /* visible only on mobile */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+/* NAV LINKS CENTERED */
+.nav-links {
+  display: flex;
+  gap: 24px;
 }
 
 .nav a, .nav button {
-  background:none;
-  border:none;
-  color:var(--fg);
-  text-decoration:none;
-  font-size:14px;
+  background: none;
+  border: none;
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .nav-links a {
-  margin:0 14px;
+  margin: 0 14px;
   opacity: 0.6;
+  transition: opacity 0.2s ease;
 }
 
 .nav-links a:hover {
   opacity: 1;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 900px) {
+  .nav-inner .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    position: fixed;
+    inset: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg);
+    gap: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 99;
+  }
+
+  .nav-links.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 .resume {
@@ -133,6 +197,7 @@ body {
 .section {
   height:100vh;
   padding:120px 80px;
+  overflow-x: hidden;
 }
 
 .page {
@@ -176,7 +241,9 @@ body {
   box-shadow: 0 15px 40px rgba(0,0,0,0.1);
   overflow-x: auto;               /* horizontal scroll for long lines */
   white-space: pre;               /* preserve code formatting */
-  max-height: 80vh;               /* prevent extreme height */
+  max-height: 80vh;    
+  height: 80%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;           /* prevent extreme height */
 }
 
 /* Make <pre> wrap long lines */
@@ -191,14 +258,27 @@ body {
   border-left: 4px solid #007acc;
 }
 
+.code-card:hover{
+  transform: translateY(-14px);
+  box-shadow: 0 25px 70px rgba(0,255,255,.25);
+}
 /* Profile card */
 /* Profile card */
 .profile-card {
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+  width: 90%;
+  align-self: right;
+  margin-right:20%;
+  height: 80%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.profile-card:hover{
+  transform: translateY(-14px);
+  box-shadow: 0 25px 70px rgba(0,255,255,.25);
+}
 .profile-card img {
   width: 100%;
   height: auto;
@@ -235,8 +315,17 @@ body {
 .section-title {
   margin-bottom: 32px;
   font-family: 'JetBrains Mono', monospace;
+  transform: translateY(10px);
+  opacity: 0;
+  animation: titleIn 0.6s ease forwards;
 }
 
+@keyframes titleIn {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
 .code-title {
   font-size: clamp(1.2rem, 2vw, 1.6rem);
   opacity: 0.6;
@@ -245,19 +334,20 @@ body {
 
 /* Cards */
 .card-grid {
-   margin-top: 40px;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
 .card {
-  padding: 12px;
+  padding: 28px;
   border-radius: 20px;
   background: var(--bg);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-  overflow: hidden;
-  font-family: 'JetBrains Mono', monospace;
+  box-shadow: 0 18px 45px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
@@ -265,13 +355,106 @@ body {
   box-shadow:0 25px 70px rgba(0,255,255,.25);
 }
 
-/* Chart */
-.chart {
-  height:140px;
-  border-radius:20px;
-  background:linear-gradient(180deg,var(--accent),transparent);
-  transform-origin:bottom;
-  transform:scaleY(0);
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.skills-card {
+  padding: 28px;
+  border-radius: 20px;
+  background: var(--bg);
+  box-shadow: 0 18px 45px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skills-card:hover {
+  transform:translateY(-14px);
+  box-shadow:0 25px 70px rgba(0,255,255,.25);
+}
+
+.skill-bar {
+  margin-top: 20px;
+}
+
+.skill-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+}
+
+.skill-value {
+  opacity: 0.6;
+}
+
+/* bar container */
+.bar {
+  display: block;        /* 🔥 REQUIRED */
+  width: 100%;           /* 🔥 REQUIRED */
+  max-width: 100%;       /* SAFETY */
+  height: 8px;
+  background: rgba(0,0,0,0.15);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+
+/* animated fill */
+.fill {
+  display: block;        /* 🔥 REQUIRED */
+  height: 100%;
+  width: 0%;
+  min-width: 0;
+  background: linear-gradient(
+    90deg,
+    var(--neon-cyan),
+    #02686d
+  );
+  transition: width 1.2s cubic-bezier(.4,0,.2,1);
+}
+
+
+
+/* micro-interaction */
+.skill-bar:hover .fill {
+  box-shadow:
+    0 0 16px rgba(0,240,255,0.8),
+    0 0 32px rgba(0,240,255,0.4);
+}
+
+
+:root {
+  --bar-bg-light: rgba(0,0,0,0.12);
+  --bar-bg-dark: rgba(255,255,255,0.18);
+  --neon-cyan: #00f0ff;
+}
+
+[data-theme="light"] .bar {
+  background: var(--bar-bg-light);
+}
+
+[data-theme="dark"] .bar {
+  background: var(--bar-bg-dark);
+}
+
+
+@media (hover: hover) {
+  .skill-value {
+    opacity: 0;
+    transform: translateY(4px);
+    transition: 0.2s ease;
+  }
+
+  .skill-bar:hover .skill-value {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Contact */
@@ -347,6 +530,20 @@ input, textarea {
   .custom-cursor {
     display: none;
   }
+
+  .bar {
+    height: 6px;
+    background: #ddd;
+  }
+
+  .fill {
+    box-shadow: none;
+    background: #000;
+  }
+
+  .skill-value {
+    opacity: 1 !important;
+  }
 }
 
 .next-project {
@@ -406,6 +603,17 @@ input, textarea {
     gap: 12px;              /* spacing between buttons */
     align-items: center;
     margin-bottom: 60px;
+  }
+}
+
+@media (max-width: 900px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+    padding: 0 16px;
+  }
+
+  .skills-card {
+    padding: 20px;
   }
 }
 
