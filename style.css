@@ -331,6 +331,9 @@ input, textarea {
   .about-grid,
   .card-grid {
     grid-template-columns: 1fr;
+    gap: 12px;              /* spacing between buttons */
+    align-items: center;
+    margin-bottom: 60px;
   }
 
   nav.nav-links {
