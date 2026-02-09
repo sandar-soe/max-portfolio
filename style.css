@@ -158,20 +158,25 @@ body {
 /* About section grid */
 .about-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  padding: 20px;
-  max-width: 100%;      /* prevent horizontal overflow */
-  overflow-x: hidden;   /* just in case */
+  grid-template-columns: 1fr 1fr;  /* two columns on desktop */
+  gap: 32px;
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* Code card */
 .code-card {
-  padding: 16px;
+  background: var(--bg-code);      /* slightly darker than page */
+  color: var(--fg);
+  padding: 24px;
   border-radius: 20px;
-  background: var(--bg);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
   box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-  overflow-x: auto;      /* allow scroll inside code if needed */
+  overflow-x: auto;               /* horizontal scroll for long lines */
+  white-space: pre;               /* preserve code formatting */
+  max-height: 80vh;               /* prevent extreme height */
 }
 
 /* Make <pre> wrap long lines */
@@ -181,8 +186,12 @@ body {
   margin: 0;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.9rem;
+  background: #1e1e1e;          /* dark code editor style */
+  color: #f8f8f2;
+  border-left: 4px solid #007acc;
 }
 
+/* Profile card */
 /* Profile card */
 .profile-card {
   border-radius: 20px;
@@ -201,29 +210,44 @@ body {
 @media (max-width: 900px) {
   .about-grid {
     grid-template-columns: 1fr;  /* stack vertically */
+    padding: 16px;
     gap: 16px;
+  }
+
+  .code-card {
+    max-height: none;            /* allow natural height */
     padding: 16px;
   }
 
-  .code-card, .profile-card {
-    width: 100%;
+  .profile-card {
+    padding: 0;
+  }
+
+  .card-grid {
+    padding: 16px;
+  }
+
+  .card {
+    padding: 16px;
   }
 }
 
 
 /* Cards */
 .card-grid {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:40px;
+   margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
 }
 
 .card {
-  background:var(--card);
-  border-radius:28px;
-  padding:32px;
-  transition:transform .3s, box-shadow .3s;
-  position:relative;
+  padding: 24px;
+  border-radius: 20px;
+  background: var(--bg);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+  overflow: hidden;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .card:hover {
@@ -353,6 +377,10 @@ input, textarea {
   .card-grid {
     grid-template-columns: 1fr;
   
+  }
+
+  .hamburger {
+    display: block;
   }
 
   nav.nav-links {
