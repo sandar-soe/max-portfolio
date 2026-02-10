@@ -82,12 +82,23 @@ document.querySelectorAll('.chart').forEach(chart=>{
   });
 });
 
-const hamburger = document.getElementById("hamburger");
+const menuToggle = document.getElementById("menu-toggle");
 const navLinks = document.querySelector(".nav-links");
+const links = navLinks.querySelectorAll("a");
 
-hamburger.addEventListener("click", () => {
-  navLinks.classList.toggle("nav-open");
+menuToggle.addEventListener("click", () => {
+  menuToggle.classList.toggle("active");
+  navLinks.classList.toggle("active");
 });
+
+links.forEach(link => {
+  link.addEventListener("click", () => {
+    menuToggle.classList.remove("active");
+    navLinks.classList.remove("active");
+  });
+});
+
+
 
 // close menu when link clicked
 navLinks.querySelectorAll("a").forEach(link => {
