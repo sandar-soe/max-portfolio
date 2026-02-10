@@ -185,3 +185,44 @@ scrollables.forEach(el => {
     }
   }, { passive: false });
 });
+
+
+// --------------------------
+// Quotes rotation (non-intrusive)
+// --------------------------
+document.addEventListener("DOMContentLoaded", () => {
+  const quotes = [
+    { text: "Data is the compass of decisions."}, //author: "– Max" },
+    { text: "Insight is born from curiosity."},
+    { text: "Turning raw data into strategy."},
+    { text: "Every dataset has a story." }
+  ];
+
+  const quoteText = document.querySelector('.hero-quote-text');
+  const quoteAuthor = document.querySelector('.hero-quote-author');
+  const wrapper = document.querySelector('.hero-quote-wrapper');
+  let index = 0;
+
+  function showQuote() {
+    // Fade out first
+    wrapper.style.opacity = 0;
+
+    setTimeout(() => {
+      const q = quotes[index];
+      quoteText.textContent = q.text;
+      quoteAuthor.textContent = q.author;
+
+      // Fade in
+      wrapper.style.opacity = 1;
+
+      // Move to next quote
+      index = (index + 1) % quotes.length;
+    }, 500); // match fade-out duration
+  }
+
+  // Initial display
+  showQuote();
+
+  // Change every 5 seconds
+  setInterval(showQuote, 5000);
+});

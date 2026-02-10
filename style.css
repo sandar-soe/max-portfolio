@@ -8,7 +8,7 @@
 [data-theme="dark"] {
   --bg:#0a0a0a;
   --fg:#ffffff;
-  --card:#141414;
+  --card:#272626;
 }
 
 * {
@@ -24,6 +24,109 @@ body {
   cursor:none;
   overflow-x:hidden;
 }
+/*
+.hero {
+  position: absolute;
+  flex-direction: column;      
+  align-items: flex-start;      
+  justify-content: center;     
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.hero-heading {
+  display: absolute;
+  flex-direction: column;       
+  align-items: flex-start;      
+  gap: 1rem;                 
+  max-width: 800px;             
+  margin-top: 0;            
+}
+*/
+
+.hero-title {
+  font-size: clamp(4rem, 12vw, 16rem);
+  line-height: 1;
+  font-weight: 900;
+  color: var(--fg);
+  margin: 0;
+}
+
+#typed {
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: 600;
+}
+
+.hero p {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  color: var(--fg);
+  opacity: 0.7;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.hero-quote-wrapper {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;    /* align left */
+  opacity: 0;                 /* start hidden for fade-in */
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  line-height: 1.4;
+  transition: opacity 1s ease, transform 1s ease;
+  transform: translateY(10px); /* slight slide-up for fade-in */
+}
+
+.hero-quote-author {
+  align-self: flex-end;
+  font-size: 0.9rem;
+  font-style: normal;
+  color: var(--fg);
+  margin-top: 0.3rem;
+}
+
+/* Fade-in when section is active */
+.section.active .hero-quote-wrapper {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-heading {
+    max-width: 100%;            /* full width on small screens */
+    padding: 10px;              /* small padding for breathing room */
+    gap: 1rem;  
+    margin-top: 0;                /* slightly smaller spacing on mobile */
+  }
+
+  .hero-title {
+    font-size: 12vw;            /* responsive font size */
+    line-height: 1.1;
+  }
+
+  #typed {
+    font-size: 5vw;             /* adjust typed text size */
+  }
+
+  .hero p {
+    font-size: 3.5vw;           /* adjust paragraph text size */
+  }
+
+  .hero-quote-wrapper {
+    margin-top: 1rem;           /* space below paragraph */
+    font-size: 3vw;             /* quote font size */
+  }
+  .hero-quote-author {
+    font-size: 0.8rem;
+  }
+}
+
+
 
 /* Project / Action Buttons */
 /* Minimal Project Buttons */
@@ -375,14 +478,14 @@ body {
 /* Sections */
 .section {
   height:100vh;
-  padding:120px 80px;
+  padding:60px 60px;
   overflow-x: hidden;
 }
 
 .page {
   background:var(--bg);
   border-radius:42px;
-  margin:40px;
+  margin:30px;
   box-shadow:0 30px 80px rgba(0,0,0,.06);
 }
 
@@ -409,37 +512,212 @@ body {
   max-width: 1200px;
   margin: 0 auto;
 }
+/* ----------------------------
+ /* ----------------------------
+/* ----------------------------
+   Theme variables
+-----------------------------*/
+:root {
+  --dot-red: #ff5f56;
+  --dot-yellow: #ffbd2e;
+  --dot-green: #27c93f;
 
-/* Code Card */
+  --bg-code: #f5f5f5;      /* light theme: soft gray */
+  --fg-code: #2b2b2b;      /* dark text for light theme */
+  --shadow-inner: rgba(0,0,0,0.05);
+}
+
+[data-theme="dark"] {
+  --bg-code: #2b2f36;        /* Arc main background */
+  --fg-code: #e6e6e6;        /* Primary text */
+  --border-code: #3a3f47;    /* Subtle border */
+}
+
+
+
+/* ----------------------------
+   Base code-card
+-----------------------------*/
 .code-card {
-  background: var(--bg-code);
-  color: var(--fg);
-  padding: 24px;
-  border-radius: 20px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.95rem;
-  box-shadow: 0 15px 40px rgba(16, 18, 55, 0.1);
-  overflow-x: auto;               /* horizontal scroll if needed */
+  position: relative;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(16,18,55,0.08);
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  font-family: 'JetBrains Mono', monospace;
+  padding-top: 32px; /* space for editor bar */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  background: var(--bg-code);
+  color: var(--fg-code);
+  isolation: isolate;
+  /* Inner soft shadow like editor window */
+  box-shadow: inset 0 0 10px var(--shadow-inner), 0 12px 40px rgba(16,18,55,0.08);
 }
 
-.code-card pre {
-  white-space: pre-wrap;
-  word-break: break-word;
-  margin: 0;
+/* Hover effect */
+.code-card:hover {
+  transform: translateY(-6px);
+  box-shadow: inset 0 0 12px var(--shadow-inner), 0 18px 60px rgba(0,255,255,0.12);
+}
+
+.code-card pre,
+.code-card code,
+.code-card pre *,
+.code-card code * {
+  mix-blend-mode: normal !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+/* ----------------------------
+   Editor bar
+-----------------------------*/
+.editor-bar {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+/* Dots */
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dot:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 6px rgba(0,0,0,0.4);
+}
+
+.red    { background: var(--dot-red); }
+.yellow { background: var(--dot-yellow); }
+.green  { background: var(--dot-green); }
+
+/* ----------------------------
+   Code content
+-----------------------------*/
+.code-card pre,
+.code-card code {
+  margin: 0 !important;
+  padding: 20px !important;       /* padding so code is not against left */
+  border-radius: 0;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.9rem;
-  background: #1e1e1e;
-  color: #f8f8f2;
-  border-left: 4px solid #007acc;
+  white-space: pre;               /* preserve formatting */
+  overflow-x: auto;               /* horizontal scroll if line too long */
+  overflow-y: visible;
+  background: var(--bg-code) !important;
+  color: var(--fg-code) !important;
+  box-sizing: border-box;
 }
 
-.code-card:hover {
-  transform: translateY(-14px);
-  box-shadow: 0 25px 70px rgba(0, 255, 255, 0.25);
+/* Remove Prism default background / padding to prevent double glitch */
+pre[class*="language-"],
+code[class*="language-"] {
+  background: transparent !important;
+  padding: 10 !important;
+  margin: 0 !important;
+  color: inherit !important;
 }
+.code-card .token.operator,
+.code-card .token.punctuation {
+  background: transparent !important;
+}
+
+/* ----------------------------
+   Prism token colors
+-----------------------------*/
+/* Dark theme */
+[data-theme="dark"] .code-card {
+  background: var(--bg-code);
+  color: var(--fg-code);
+  border: 1px solid var(--border-code);
+  box-shadow: none; /* important for clarity */
+}
+
+/* Comments */
+[data-theme="dark"] .code-card .token.comment {
+  color: #b6c7e8;
+  font-style: italic;
+}
+
+/* Keywords (vivid purple) */
+[data-theme="dark"] .code-card .token.keyword {
+  color: #4d48f6;
+}
+
+/* Functions & methods (electric blue) */
+[data-theme="dark"] .code-card .token.function {
+  color: #89b4ff;
+}
+
+/* Strings (bright lime-green) */
+[data-theme="dark"] .code-card .token.string {
+  color: #b6fca6;
+}
+
+/* Numbers / booleans (warm orange) */
+[data-theme="dark"] .code-card .token.number,
+[data-theme="dark"] .code-card .token.boolean {
+  color: #ff9f7a;
+}
+
+/* Operators (cyan) */
+[data-theme="dark"] .code-card .token.operator {
+  color: #7cdcff;
+}
+
+/* Punctuation */
+[data-theme="dark"] .code-card .token.punctuation {
+  color: #cdd6e0;
+}
+
+/* Variables / identifiers */
+[data-theme="dark"] .code-card .token.variable {
+  color: #f1f3f5;
+}
+
+/* Classes / types */
+[data-theme="dark"] .code-card .token.class-name,
+[data-theme="dark"] .code-card .token.type {
+  color: #ffd580;
+}
+
+
+/* Light theme */
+[data-theme="light"] .code-card .token.comment  { color: #008000; font-style: italic; }
+[data-theme="light"] .code-card .token.keyword  { color: #0000ff; }
+[data-theme="light"] .code-card .token.string   { color: #a31515; }
+[data-theme="light"] .code-card .token.function { color: #aa00aa; }
+[data-theme="light"] .code-card .token.number   { color: #098658; }
+[data-theme="light"] .code-card .token.operator { color: #120101; }
+
+/* ----------------------------
+   Scrollable for mobile
+-----------------------------*/
+.code-card.scrollable {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+  overscroll-behavior: contain;
+}
+
+/* ----------------------------
+   Responsive adjustments
+-----------------------------*/
+@media (max-width: 900px) {
+  .code-card pre { font-size: 0.85rem; padding: 16px; }
+  .editor-bar { top: 8px; left: 8px; gap: 6px; }
+  .dot { width: 10px; height: 10px; }
+}
+
+
 
 /* Profile Card */
 .profile-card {

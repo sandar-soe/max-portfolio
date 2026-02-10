@@ -7,6 +7,13 @@
 
   <!-- Code font -->
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Prism.js CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+
+<!-- Prism.js JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
 
   <!-- Motion libs -->
   <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
@@ -50,31 +57,56 @@
 <!-- HOME -->
 <section id="home" class="section page">
   <div class="hero">
-    <h1 class="hero-title">MAX</h1>
+
+    <div class="hero-heading">
+      <h1 class="hero-title">MAX</h1>
+
     <h2><span id="typed"></span></h2>
+    
     <p>// building insight systems from data</p>
+          <div class="hero-quote-wrapper">
+        <span class="hero-quote-text" aria-live="polite"></span>
+        <span class="hero-quote-author"></span>
+      </div>
+    </div>
+
   </div>
 </section>
+
+
 
 <!-- ABOUT -->
 <section id="about" class="section page">
   <h2 class="section-title code-title">// About</h2>
   <div class="about-grid">
-    <div class="code-card scrollable">
-<pre><code>// Professional Summary
-Data analyst focused on
-decision-grade analytics.
+<div class="code-card scrollable">
+  <div class="editor-bar">
+    <span class="dot red"></span>
+    <span class="dot yellow"></span>
+    <span class="dot green"></span>
+  </div>
 
-// Data Philosophy
-Signal → Structure → Insight
+  <pre><code class="language-js">
+const name = "Max";
+const role = "Data Analyst";
+const focus = ["Data", "Design", "Clarity"];
 
-// Specialization
-Analytics · Experiments · Storytelling
+function buildThings() {
+  return {
+    dashboards: "that explain, not confuse",
+    models: "that answer real questions",
+    products: "that feel intentional"
+  };
+}
 
-// Outside Interests
-Fashion systems · Philosophy · Startups
-</code></pre>
-    </div>
+export default buildThings();
+  </code></pre>
+</div>
+
+
+
+
+
 
     <div class="profile-card scrollable">
       <img src="assets/profile.JPG" alt="Profile"/>
