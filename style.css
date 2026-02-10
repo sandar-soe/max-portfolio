@@ -402,94 +402,97 @@ body {
 /* About section grid */
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;  /* two columns on desktop */
+  grid-template-columns: 2fr 1fr; /* Code card twice as wide as profile card */
   gap: 32px;
-  padding: 40px;
+  align-items: stretch;           /* ensures both cards same height */
+  padding: 40px 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* Code card */
+/* Code Card */
 .code-card {
-  background: var(--bg-code);      /* slightly darker than page */
+  background: var(--bg-code);
   color: var(--fg);
   padding: 24px;
   border-radius: 20px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.95rem;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-  overflow-x: auto;               /* horizontal scroll for long lines */
-  white-space: pre;               /* preserve code formatting */
-  max-height: 80vh;    
-  height: 80%;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;           /* prevent extreme height */
+  box-shadow: 0 15px 40px rgba(16, 18, 55, 0.1);
+  overflow-x: auto;               /* horizontal scroll if needed */
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Make <pre> wrap long lines */
 .code-card pre {
-  white-space: pre-wrap;     /* wrap lines instead of overflowing */
-  word-break: break-word;    /* break very long words if needed */
+  white-space: pre-wrap;
+  word-break: break-word;
   margin: 0;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.9rem;
-  background: #1e1e1e;          /* dark code editor style */
+  background: #1e1e1e;
   color: #f8f8f2;
   border-left: 4px solid #007acc;
 }
 
-.code-card:hover{
+.code-card:hover {
   transform: translateY(-14px);
-  box-shadow: 0 25px 70px rgba(0,255,255,.25);
+  box-shadow: 0 25px 70px rgba(0, 255, 255, 0.25);
 }
-/* Profile card */
-/* Profile card */
+
+/* Profile Card */
 .profile-card {
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-  width: 90%;
-  align-self: right;
-  margin-right:20%;
-  height: 80%;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
-.profile-card:hover{
-  transform: translateY(-14px);
-  box-shadow: 0 25px 70px rgba(0,255,255,.25);
-}
 .profile-card img {
   width: 100%;
-  height: auto;
-  display: block;
+  height: 100%;
   object-fit: cover;
+  display: block;
 }
 
-/* Mobile adjustments */
+.profile-card:hover {
+  transform: translateY(-14px);
+  box-shadow: 0 25px 70px rgba(0, 255, 255, 0.25);
+}
+
 @media (max-width: 900px) {
   .about-grid {
-    grid-template-columns: 1fr;  /* stack vertically */
-    padding: 16px;
+    display: flex;            /* use flex instead of grid for mobile */
+    flex-direction: column;   /* stack cards vertically */
     gap: 16px;
+    padding: 0;               /* remove extra horizontal padding */
+  }
+
+  .code-card,
+  .profile-card {
+    width: 100vw;             /* full viewport width */
+    max-width: 100%;          /* prevent overflow */
+    margin: 0;                /* remove any previous margin */
+    border-radius: 0;         /* optional: full width looks cleaner */
   }
 
   .code-card {
-    max-height: none;            /* allow natural height */
-    padding: 16px;
+    padding: 16px 20px;       /* inner padding for content */
+    box-sizing: border-box;   /* include padding in width */
   }
 
-  .profile-card {
-    padding: 0;
-  }
-
-  .card-grid {
-    padding: 16px;
-  }
-
-  .card {
-    padding: 16px;
+  .profile-card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
   }
 }
+
+
+
 
 .section-title {
   margin-bottom: 32px;
@@ -810,7 +813,27 @@ input, textarea {
   transition: background 0.2s, border 0.2s, transform 0.1s;
   border: 2px solid var(--cursor-border);
   background: var(--cursor-fill);
-  mix-blend-mode: difference; /* optional for style */
+  mix-blend-mode: difference; 
+  opacity: 1;/* optional for style */
+}
+
+/* Hide custom cursor on touch devices by default */
+@media (pointer: coarse) {
+  .custom-cursor {
+    opacity: 0;
+  }
+}
+
+
+.custom-cursor.show {
+  opacity: 1;
+}
+
+.scrollable {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: auto;
 }
 
 /* Cursor colors for themes */

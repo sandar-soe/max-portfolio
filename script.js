@@ -1,10 +1,36 @@
 // Custom cursor movement
-const cursor = document.querySelector(".custom-cursor");
+const cursor = document.querySelector('.custom-cursor');
 
-document.addEventListener("mousemove", e => {
-  cursor.style.top = e.clientY + "px";
-  cursor.style.left = e.clientX + "px";
-});
+// Desktop: follow mouse
+if (window.matchMedia('(pointer: fine)').matches) {
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+}
+
+// Mobile: show on touch only
+if (window.matchMedia('(pointer: coarse)').matches) {
+  document.addEventListener('touchstart', e => {
+    cursor.style.opacity = '1';
+    moveCursor(e.touches[0]);
+  });
+
+  document.addEventListener('touchmove', e => moveCursor(e.touches[0]));
+  document.addEventListener('touchend', () => {
+    cursor.style.opacity = '0';
+  });
+}
+
+function moveCursor(touch) {
+  cursor.style.left = touch.clientX + 'px';
+  cursor.style.top = touch.clientY + 'px';
+}
+
+
+document.addEventListener('touchmove', e => moveCursor(e.touches[0]));
+document.addEventListener('touchend', () => cursor.classList.remove('show'));
+
 
 // Optional: add scale on hover for links/buttons
 document.querySelectorAll("a, button").forEach(el => {
@@ -137,4 +163,25 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+const scrollables = document.querySelectorAll('.scrollable');
 
+scrollables.forEach(el => {
+  let startY = 0;
+
+  el.addEventListener('touchstart', e => {
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+
+  el.addEventListener('touchmove', e => {
+    const currentY = e.touches[0].clientY;
+    const atTop = el.scrollTop === 0;
+    const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight;
+
+    // If trying to scroll past top/bottom, allow page to scroll
+    if ((atTop && currentY > startY) || (atBottom && currentY < startY)) {
+      e.stopPropagation(); // let parent page scroll
+    } else {
+      e.stopPropagation(); // still allow inner scroll
+    }
+  }, { passive: false });
+});
