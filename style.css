@@ -535,12 +535,13 @@ body {
 }
 
 .skills-grid {
-  display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 24px;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
+  display: grid;                /* space between left/right cards */
+  flex-wrap: wrap;
 }
 
 .skills-card {
@@ -551,6 +552,13 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.technical-card {
+  order: 1;                  /* ensures it stays on the left on desktop */
+}
+
+.languages-card {
+  order: 2;                  /* stays on the right on desktop */
+}
 .skills-card:hover {
   transform:translateY(-14px);
   box-shadow:0 25px 70px rgba(0,255,255,.25);
