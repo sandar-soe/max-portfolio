@@ -187,42 +187,58 @@ scrollables.forEach(el => {
 });
 
 
-// --------------------------
-// Quotes rotation (non-intrusive)
-// --------------------------
+// ----------------------
+// HERO QUOTES ROTATION
+// ----------------------
+
 document.addEventListener("DOMContentLoaded", () => {
+
   const quotes = [
-    { text: "Data is the compass of decisions."}, //author: "– Max" },
-    { text: "Insight is born from curiosity."},
-    { text: "Turning raw data into strategy."},
-    { text: "Every dataset has a story." }
+    {
+      text: "Insight is engineered, not discovered.",
+      author: "– Max"
+    },  
+    {
+      text: "Without data, you're just another person with an opinion.",
+      author: "– W. Edwards Deming"
+    },
+    {
+      text: "The goal is to turn data into information, and information into insight.",
+      author: "– Carly Fiorina"
+    },
+    {
+      text: "Data beats emotions.",
+      author: "– Sean Rad"
+    },
+    {
+      text: "In God we trust. All others must bring data.",
+      author: "– W. Edwards Deming"
+    }
   ];
 
-  const quoteText = document.querySelector('.hero-quote-text');
-  const quoteAuthor = document.querySelector('.hero-quote-author');
-  const wrapper = document.querySelector('.hero-quote-wrapper');
+  const quoteWrapper = document.querySelector(".hero-quote-wrapper");
+  const quoteText = document.querySelector(".hero-quote-text");
+  const quoteAuthor = document.querySelector(".hero-quote-author");
+
+  if (!quoteWrapper || !quoteText || !quoteAuthor) return;
+
   let index = 0;
 
   function showQuote() {
-    // Fade out first
-    wrapper.style.opacity = 0;
+    quoteWrapper.classList.remove("active");
 
     setTimeout(() => {
       const q = quotes[index];
       quoteText.textContent = q.text;
       quoteAuthor.textContent = q.author;
 
-      // Fade in
-      wrapper.style.opacity = 1;
+      quoteWrapper.classList.add("active");
 
-      // Move to next quote
       index = (index + 1) % quotes.length;
-    }, 500); // match fade-out duration
+    }, 400);
   }
 
-  // Initial display
   showQuote();
-
-  // Change every 5 seconds
-  setInterval(showQuote, 5000);
+  setInterval(showQuote, 6000);
 });
+
